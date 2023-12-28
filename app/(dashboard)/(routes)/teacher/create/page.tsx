@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { error } from "console";
 
 const formSchema = z.object({
   title: z.string().min(3, { message: "Title is required." }),
@@ -36,12 +37,17 @@ const CreateCourse = () => {
     try {
       const response = await fetch("/api/courses", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
-    } catch {
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error.message);
+      }
+      toast.success("Course created successfully.");
+      router.push(`/teacher/courses/${data.id}`);
+    } catch (error) {
+      console.log(error);
       toast.error("something went wrong.");
     }
   };
