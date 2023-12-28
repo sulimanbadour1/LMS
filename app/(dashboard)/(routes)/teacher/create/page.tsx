@@ -49,6 +49,7 @@ const CreateCourse = () => {
     } catch (error) {
       console.log(error);
       toast.error("something went wrong.");
+      console.log("Some error occurred", error);
     }
   };
 
