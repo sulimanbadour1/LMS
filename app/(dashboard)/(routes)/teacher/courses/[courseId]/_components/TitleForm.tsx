@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface TitleFormProps {
   initialData: {
@@ -33,6 +35,7 @@ const formSchema = z.object({
     }),
 });
 const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
+  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   //
   const toggleEdit = () => {
@@ -44,7 +47,22 @@ const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
   });
   const { isSubmitting, isValid } = form.formState;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    try {
+      const res = await fetch(`/api/courses/${courseId}`, {
+        method: "PATCH",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      toast.success("Course updated");
+      toggleEdit();
+      router.refresh();
+      const data = await res.json();
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
   };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
