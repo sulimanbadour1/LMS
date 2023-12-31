@@ -1,10 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Logo = () => {
   return (
     <div className="items-center justify-center flex p-2">
-      <Image src="/logo.png" alt="Logo" width={80} height={80} />
+      <Link href="/">
+        <Image src="/logo.png" alt="Logo" width={120} height={120} />
+      </Link>
     </div>
   );
 };

@@ -71,7 +71,7 @@ const CreateCourse = () => {
                 <FormControl>
                   <Input
                     id="title"
-                    placeholder="Introduction to React"
+                    placeholder="e.g. React Hooks: A complete guide."
                     {...field}
                     disabled={isSubmitting}
                   />
