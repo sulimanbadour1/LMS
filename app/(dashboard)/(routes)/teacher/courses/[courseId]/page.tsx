@@ -5,7 +5,7 @@ import { LayoutDashboard } from "lucide-react";
 import { redirect } from "next/navigation";
 import TitleForm from "./_components/TitleForm";
 import { Description } from "@radix-ui/react-dialog";
-import DescriptionForm from "./_components/Desc_Form";
+import DescriptionForm from "./_components/DescForm";
 import ImageForm from "./_components/ImageForm";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
@@ -22,6 +22,12 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   if (!course) {
     return redirect("/");
   }
+
+  const categories = await db.category.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
 
   const requiredFields = [
     course.title,
