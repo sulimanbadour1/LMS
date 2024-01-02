@@ -1,7 +1,12 @@
 import { IconBadge } from "@/components/iconBadge";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
-import { CircleDollarSign, LayoutDashboard, ListChecks } from "lucide-react";
+import {
+  CircleDollarSign,
+  File,
+  LayoutDashboard,
+  ListChecks,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 import TitleForm from "./_components/TitleForm";
 import { Description } from "@radix-ui/react-dialog";
@@ -9,6 +14,7 @@ import DescriptionForm from "./_components/DescForm";
 import ImageForm from "./_components/ImageForm";
 import CategoryForm from "./_components/CategoryForm";
 import PricingForm from "./_components/PricingForm";
+import AttachmentForm from "./_components/AttchForm";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
@@ -19,6 +25,13 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const course = await db.course.findUnique({
     where: {
       id: params.courseId,
+    },
+    include: {
+      attachments: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
   if (!course) {
@@ -88,6 +101,11 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             <h2 className="text-xl font-medium">Pricing</h2>
           </div>
           <PricingForm initialData={course} courseId={course.id} />
+          <div className="flex items-center gap-x-4">
+            <IconBadge icon={File} />
+            <h2 className="text-xl font-medium">Resources and attachments</h2>
+          </div>
+          <AttachmentForm initialData={course} courseId={course.id} />
         </div>
       </div>
     </div>
