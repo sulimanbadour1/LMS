@@ -47,6 +47,26 @@ const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
       console.log(error);
     }
   };
+
+  const onDelete = async (id: string) => {
+    try {
+      setDeletingId(id);
+      await fetch(`/api/courses/${courseId}/attachments/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      toast.success("Attachment deleted");
+      router.refresh();
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    } finally {
+      setDeletingId(null);
+    }
+  };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="flex font-medium items-center justify-between">
@@ -70,32 +90,30 @@ const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
           )}
           {initialData.attachments.length > 0 && (
             <div className="space-y-2">
-              {
-                // @ts-ignore
-                initialData.attachments.map((attachment) => (
-                  <div
-                    className="flex items-center p-3 rounded-md bg-slate-200 space-x-2 border border-slate-300 text-sky-700"
-                    key={attachment.id}
-                  >
-                    <File className="h-4 w-4 mr-2 flex-shrink-0" />
-                    <p className="text-sm line-clamp-1">{attachment.name}</p>
-                    {deletingId === attachment.id && (
-                      <div>
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      </div>
-                    )}
-                    {deletingId !== attachment.id && (
-                      <button
-                        className="ml-auto hover:opacity-75 transition"
-                        title="delete"
-                        type="button"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    )}
-                  </div>
-                ))
-              }
+              {initialData.attachments.map((attachment) => (
+                <div
+                  className="flex items-center p-3 rounded-md bg-slate-200 space-x-2 border border-slate-300 text-sky-700"
+                  key={attachment.id}
+                >
+                  <File className="h-4 w-4 mr-2 flex-shrink-0" />
+                  <p className="text-sm line-clamp-1">{attachment.name}</p>
+                  {deletingId === attachment.id && (
+                    <div>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    </div>
+                  )}
+                  {deletingId !== attachment.id && (
+                    <button
+                      className="ml-auto hover:opacity-75 transition"
+                      title="delete"
+                      type="button"
+                      onClick={() => onDelete(attachment.id)}
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </>
