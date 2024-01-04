@@ -9,12 +9,13 @@ import {
 } from "lucide-react";
 import { redirect } from "next/navigation";
 import TitleForm from "./_components/TitleForm";
-import { Description } from "@radix-ui/react-dialog";
+
 import DescriptionForm from "./_components/DescForm";
 import ImageForm from "./_components/ImageForm";
 import CategoryForm from "./_components/CategoryForm";
 import PricingForm from "./_components/PricingForm";
 import AttachmentForm from "./_components/AttchForm";
+import ChaptersForm from "./_components/ChaptersForm";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
@@ -25,8 +26,14 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const course = await db.course.findUnique({
     where: {
       id: params.courseId,
+      userId,
     },
     include: {
+      chapters: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       attachments: {
         orderBy: {
           createdAt: "desc",
@@ -50,6 +57,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     course.imageUrl,
     course.price,
     course.categoryId,
+    course.chapters.length > 0,
   ];
   const totalFields = requiredFields.length;
 
@@ -94,7 +102,11 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               <IconBadge icon={ListChecks} />
               <h2 className="text-xl font-medium">Course Chapters</h2>
             </div>
-            <div>Todo : Add chapters</div>
+            {/* The Chapters Form will go here */}
+            <ChaptersForm
+              initialData={{ ...course, chapters: [] }}
+              courseId={course.id}
+            />
           </div>
           <div className="flex items-center gap-x-4">
             <IconBadge icon={CircleDollarSign} />
@@ -105,7 +117,10 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             <IconBadge icon={File} />
             <h2 className="text-xl font-medium">Resources and attachments</h2>
           </div>
-          <AttachmentForm initialData={course} courseId={course.id} />
+          <AttachmentForm
+            initialData={{ ...course, attachments: [] }}
+            courseId={course.id}
+          />
         </div>
       </div>
     </div>
