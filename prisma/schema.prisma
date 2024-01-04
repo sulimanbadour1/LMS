@@ -21,6 +21,8 @@ model Course {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   Category    Category?    @relation(fields: [categoryId], references: [id])
+  Chapters    Chapter[]
+  purchases   Purchase[]
 
   @@index([categoryId])
 }
@@ -41,4 +43,66 @@ model Attachment {
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@index([courseId])
+}
+
+model Chapter {
+  id          String   @id @default(uuid())
+  title       String
+  description String?  @db.Text
+  videoUrl    String?  @db.Text
+  position    Int
+  isPublished Boolean  @default(false)
+  isFree      Boolean  @default(true)
+  muxData     MuxData?
+
+  courseId     String
+  course       Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userProgress UserProgress[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@index([courseId])
+}
+
+model MuxData {
+  id         String  @id @default(uuid())
+  chapterId  String  @unique
+  asset      String
+  playbackId String?
+
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+}
+
+model UserProgress {
+  id        String @id @default(uuid())
+  userId    String
+  chapterId String
+
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, chapterId])
+  @@index([chapterId])
+}
+
+model Purchase {
+  id        String   @id @default(uuid())
+  userId    String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([courseId])
+}
+
+model StripeCustomer {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  stripecCustomerId String   @unique
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
