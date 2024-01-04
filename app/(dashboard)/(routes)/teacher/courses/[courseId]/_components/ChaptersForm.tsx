@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Chapter, Course } from "@prisma/client";
 import { Input } from "@/components/ui/input";
+import { ChaptersList } from "./ChapterList";
 
 interface ChaptersFormProps {
   initialData: Course & { chapters: Chapter[] };
@@ -117,6 +118,11 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
           {!initialData.chapters.length && (
             <>You haven&apos;t added any chapters yet.</>
           )}
+          <ChaptersList
+            onEdit={() => {}}
+            onReorder={() => {}}
+            items={initialData.chapters || []}
+          />
         </div>
       )}
       {!isCreating && (
