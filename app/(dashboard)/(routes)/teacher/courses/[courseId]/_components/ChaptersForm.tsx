@@ -111,23 +111,16 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
       {!isCreating && (
         <div
           className={cn(
-            "text-sm text-slate-500 mt-2",
-            !initialData.chapters.length && " text-slate-500 italic"
+            "text-sm mt-2",
+            !initialData.chapters.length && "text-slate-500 italic"
           )}
         >
-          {!initialData.chapters.length && (
-            <>You haven&apos;t added any chapters yet.</>
-          )}
-          <ChaptersList
-            onEdit={() => {}}
-            onReorder={() => {}}
-            items={initialData.chapters || []}
-          />
+          {initialData.chapters.length == 0 && "No chapters yet."}
         </div>
       )}
       {!isCreating && (
         <p className="text-xs text-muted-foreground mt-4">
-          Drag and drop to reorder the chapters.
+          Drag and drop to reorder the chapters
         </p>
       )}
     </div>

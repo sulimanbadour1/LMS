@@ -9,7 +9,7 @@ import {
   DropResult,
 } from "@hello-pangea/dnd"; // TODO: replace with our own DnD library
 import { cn } from "@/lib/utils";
-import { Grid } from "lucide-react";
+import { Grid, Grip } from "lucide-react";
 
 interface ChaptersListProps {
   items: Chapter[];
@@ -62,7 +62,7 @@ export const ChaptersList = ({
                       )}
                       {...provided.dragHandleProps}
                     >
-                      <Grid />
+                      <Grip className="w-4 h-4" />
                     </div>
                   </div>
                 )}
