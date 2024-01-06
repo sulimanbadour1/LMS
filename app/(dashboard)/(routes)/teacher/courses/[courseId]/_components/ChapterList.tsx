@@ -2,6 +2,13 @@
 
 import { Chapter } from "@prisma/client";
 import { useEffect, useState } from "react";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "@hello-pangea/dnd"; // TODO: replace with our own DnD library
+import { cn } from "@/lib/utils";
 
 interface ChaptersListProps {
   items: Chapter[];
