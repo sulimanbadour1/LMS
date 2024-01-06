@@ -17,7 +17,6 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
 import { Chapter, Course } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import { ChaptersList } from "./ChapterList";
@@ -63,6 +62,7 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
       console.log(error);
     }
   };
+  console.log(initialData.chapters);
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="flex font-medium items-center justify-between">
@@ -101,7 +101,6 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
                 </FormItem>
               )}
             />
-
             <Button type="submit" disabled={!isValid || isSubmitting}>
               Create Chapter
             </Button>
@@ -115,7 +114,13 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
             !initialData.chapters.length && "text-slate-500 italic"
           )}
         >
-          {initialData.chapters.length == 0 && "No chapters yet."}
+          {!initialData.chapters.length && "No chapters yet."}
+
+          <ChaptersList
+            items={initialData.chapters}
+            onEdit={() => {}}
+            onReorder={() => {}}
+          />
         </div>
       )}
       {!isCreating && (
