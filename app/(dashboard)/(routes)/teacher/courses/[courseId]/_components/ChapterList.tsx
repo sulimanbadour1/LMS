@@ -10,6 +10,7 @@ import {
 } from "@hello-pangea/dnd"; // TODO: replace with our own DnD library
 import { cn } from "@/lib/utils";
 import { Grid, Grip } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface ChaptersListProps {
   items: Chapter[];
@@ -63,6 +64,18 @@ export const ChaptersList = ({
                       {...provided.dragHandleProps}
                     >
                       <Grip className="w-4 h-4" />
+                    </div>
+                    {chapter.title}
+                    <div className="ml-auto pr-2 items-center flex gap-x-2">
+                      {chapter.isFree && <Badge>Free</Badge>}
+                      <Badge
+                        className={cn(
+                          "bg-slate-500 text-white",
+                          chapter.isPublished && "bg-sky-700"
+                        )}
+                      >
+                        {chapter.isPublished ? "Published" : "Draft"}
+                      </Badge>
                     </div>
                   </div>
                 )}
