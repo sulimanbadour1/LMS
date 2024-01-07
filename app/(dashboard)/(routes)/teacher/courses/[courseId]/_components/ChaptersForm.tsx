@@ -67,7 +67,7 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
     try {
       setIsUpdating(true);
       const res = await fetch(`/api/courses/${courseId}/chapters/reorder`, {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify(updateData),
         headers: {
           "Content-Type": "application/json",
@@ -137,7 +137,7 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
           {!initialData.chapters.length && "No chapters yet."}
 
           <ChaptersList
-            items={initialData.chapters}
+            items={initialData.chapters || []}
             onEdit={() => {}}
             onReorder={onReorder}
           />
