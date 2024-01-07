@@ -62,7 +62,27 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
       console.log(error);
     }
   };
-  console.log(initialData.chapters);
+
+  const onReorder = async (updateData: { id: string; position: number }[]) => {
+    try {
+      setIsUpdating(true);
+      const res = await fetch(`/api/courses/${courseId}/chapters/reorder`, {
+        method: "PUT",
+        body: JSON.stringify(updateData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      toast.success("Chapter reordered");
+      router.refresh();
+      const data = await res.json();
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="flex font-medium items-center justify-between">
@@ -119,7 +139,7 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
           <ChaptersList
             items={initialData.chapters}
             onEdit={() => {}}
-            onReorder={() => {}}
+            onReorder={onReorder}
           />
         </div>
       )}
