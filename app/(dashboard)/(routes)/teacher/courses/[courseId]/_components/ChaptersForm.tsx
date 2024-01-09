@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 
-import { Pencil, PlusCircle } from "lucide-react";
+import { Loader2, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -67,15 +67,14 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
     try {
       setIsUpdating(true);
       const res = await fetch(`/api/courses/${courseId}/chapters/reorder`, {
-        method: "PATCH",
-        body: JSON.stringify(updateData),
+        method: "PUT",
+        body: JSON.stringify({ list: updateData }),
         headers: {
           "Content-Type": "application/json",
         },
       });
       toast.success("Chapter reordered");
       router.refresh();
-      const data = await res.json();
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -84,7 +83,12 @@ const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
     }
   };
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
+    <div className=" relative mt-6 border bg-slate-100 rounded-md p-4">
+      {isUpdating && (
+        <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-md flex items-center justify-center">
+          <Loader2 className="animate-spin w-6 h-6 text-sky-800" />
+        </div>
+      )}
       <div className="flex font-medium items-center justify-between">
         Course Chapters
         <Button variant={"ghost"} onClick={toggleCreating}>
