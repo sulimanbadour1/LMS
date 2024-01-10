@@ -53,14 +53,17 @@ const ChapterTitleForm = ({
   const { isSubmitting, isValid } = form.formState;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const res = await fetch(`/api/courses/${courseId}`, {
-        method: "PATCH",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      toast.success("Course updated");
+      const res = await fetch(
+        `/api/courses/${courseId}/chapters/${chapterId}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      toast.success("Chapter updated");
       toggleEdit();
       router.refresh();
       const data = await res.json();
