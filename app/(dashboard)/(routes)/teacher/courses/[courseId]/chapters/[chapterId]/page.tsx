@@ -1,9 +1,11 @@
+import { IconBadge } from "@/components/iconBadge";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
+import ChapterTitleForm from "./_components/ChapterTitle";
 
 const ChapterIdPage = async ({
   params,
@@ -13,11 +15,12 @@ const ChapterIdPage = async ({
     chapterId: string;
   };
 }) => {
+  // User must be logged in
   const { userId } = auth();
   if (!userId) {
     return redirect("/");
   }
-
+  // Chapter must exist
   const chapter = await db.chapter.findUnique({
     where: {
       id: params.chapterId,
@@ -27,10 +30,11 @@ const ChapterIdPage = async ({
       muxData: true,
     },
   });
+  // Chapter must belong to user
   if (!chapter) {
     return redirect("/");
   }
-
+  // Chapter must have mux data
   const requiredFields = [chapter.title, chapter.description, chapter.videoUrl];
 
   const totalFields = requiredFields.length;
@@ -57,6 +61,19 @@ const ChapterIdPage = async ({
               </span>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-col-2 gap-6 mt-16">
+        <div className="space-y-4 ">
+          <div className="flex items-center gap-x-2">
+            <IconBadge icon={LayoutDashboard} />
+            <h2 className="text-xl font-medium">Chapter details</h2>
+          </div>
+          <ChapterTitleForm
+            initialData={chapter}
+            courseId={params.courseId}
+            chapterId={params.chapterId}
+          />
         </div>
       </div>
     </div>
