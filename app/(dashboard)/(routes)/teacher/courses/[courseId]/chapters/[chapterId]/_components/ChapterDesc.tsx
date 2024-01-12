@@ -19,7 +19,9 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 import { Chapter } from "@prisma/client";
-import Editor from "@/components/editor";
+import { Editor } from "@/components/editor";
+import { Textarea } from "@/components/ui/textarea";
+import { Preview } from "@/components/preview";
 
 interface ChapterDescFormProps {
   initialData: Chapter;
@@ -87,7 +89,7 @@ const ChapterDescForm = ({
       {!isEditing && (
         <p
           className={cn(
-            "text-sm mt-2",
+            "text-md t-2 font-bold mt-2",
             !initialData.description && "text-slate-500 italic"
           )}
         >
@@ -106,7 +108,12 @@ const ChapterDescForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Editor {...field} />
+                    <Textarea
+                      {...field}
+                      placeholder="Chapter description"
+                      className="bg-white "
+                      rows={4}
+                    />
                   </FormControl>
                   <FormMessage>
                     {form.formState.errors.description?.message}
