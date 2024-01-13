@@ -87,7 +87,7 @@ const ChapterAccessForm = ({
         </Button>
       </div>
       {!isEditing && (
-        <div
+        <p
           className={cn(
             "text-md t-2 font-bold mt-2",
             !initialData.isFree && "text-slate-500 italic"
@@ -98,7 +98,7 @@ const ChapterAccessForm = ({
           ) : (
             <>This chapter is not free</>
           )}
-        </div>
+        </p>
       )}
       {isEditing && (
         <Form {...form}>
