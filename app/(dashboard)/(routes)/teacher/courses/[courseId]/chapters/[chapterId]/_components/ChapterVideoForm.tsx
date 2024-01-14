@@ -2,7 +2,7 @@
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
-
+import MuxPlayer from "@mux/mux-player-react";
 import { ImageIcon, Pencil, PlusCircle, VideoIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -80,7 +80,9 @@ const ChapterVideoForm = ({
             <VideoIcon className="h-10 w-10 text-slate-400" />
           </div>
         ) : (
-          <div className="relative aspect-video mt-2">Video Uploaded</div>
+          <div className="relative aspect-video mt-2">
+            <MuxPlayer playbackId={initialData?.muxData?.playbackId || ""} />
+          </div>
         ))}
       {isEditing && (
         <div>
