@@ -19,7 +19,7 @@ interface ChapterVideoFormProps {
 }
 
 const formSchema = z.object({
-  vidroUrl: z.string().min(1),
+  videoUrl: z.string().min(1),
 });
 const ChapterVideoForm = ({
   initialData,
@@ -88,7 +88,7 @@ const ChapterVideoForm = ({
             endpoint="chapterVideo"
             onChange={(url) => {
               if (url) {
-                onSubmit({ vidroUrl: url });
+                onSubmit({ videoUrl: url });
               }
             }}
           />
