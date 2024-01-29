@@ -66,61 +66,63 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const completionText = `(${completedFields}/${totalFields})`;
 
   return (
-    <div className="p-6 ">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-y-2">
-          <h1 className="text-2xl font-medium">Course Overview</h1>
-          <span className="text-sm text-slate-500">
-            Complete All fields: {completionText}
-          </span>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16">
-        <div>
-          <div className="flex items-center gap-x-4">
-            <IconBadge icon={LayoutDashboard} />
-            <h2 className="text-xl font-medium">Customize your course</h2>
+    <>
+      <div className="p-6 ">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-y-2">
+            <h1 className="text-2xl font-medium">Course Overview</h1>
+            <span className="text-sm text-slate-500">
+              Complete All fields: {completionText}
+            </span>
           </div>
-          <TitleForm initialData={course} courseId={course.id} />
-          <DescriptionForm
-            initialData={{ ...course, description: course.description ?? "" }}
-            courseId={course.id}
-          />
-          <ImageForm initialData={course} courseId={course.id} />
-          <CategoryForm
-            initialData={course}
-            courseId={course.id}
-            options={categories.map((category) => ({
-              label: category.name,
-              value: category.id,
-            }))}
-          />
         </div>
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16">
           <div>
             <div className="flex items-center gap-x-4">
-              <IconBadge icon={ListChecks} />
-              <h2 className="text-xl font-medium">Course Chapters</h2>
+              <IconBadge icon={LayoutDashboard} />
+              <h2 className="text-xl font-medium">Customize your course</h2>
             </div>
-            {/* The Chapters Form will go here */}
-            <ChaptersForm initialData={course} courseId={course.id} />
+            <TitleForm initialData={course} courseId={course.id} />
+            <DescriptionForm
+              initialData={{ ...course, description: course.description ?? "" }}
+              courseId={course.id}
+            />
+            <ImageForm initialData={course} courseId={course.id} />
+            <CategoryForm
+              initialData={course}
+              courseId={course.id}
+              options={categories.map((category) => ({
+                label: category.name,
+                value: category.id,
+              }))}
+            />
           </div>
-          <div className="flex items-center gap-x-4">
-            <IconBadge icon={CircleDollarSign} />
-            <h2 className="text-xl font-medium">Pricing</h2>
+          <div className="space-y-6">
+            <div>
+              <div className="flex items-center gap-x-4">
+                <IconBadge icon={ListChecks} />
+                <h2 className="text-xl font-medium">Course Chapters</h2>
+              </div>
+              {/* The Chapters Form will go here */}
+              <ChaptersForm initialData={course} courseId={course.id} />
+            </div>
+            <div className="flex items-center gap-x-4">
+              <IconBadge icon={CircleDollarSign} />
+              <h2 className="text-xl font-medium">Pricing</h2>
+            </div>
+            <PricingForm initialData={course} courseId={course.id} />
+            <div className="flex items-center gap-x-4">
+              <IconBadge icon={File} />
+              <h2 className="text-xl font-medium">Resources and attachments</h2>
+            </div>
+            <AttachmentForm
+              initialData={{ ...course, attachments: [] }}
+              courseId={course.id}
+            />
           </div>
-          <PricingForm initialData={course} courseId={course.id} />
-          <div className="flex items-center gap-x-4">
-            <IconBadge icon={File} />
-            <h2 className="text-xl font-medium">Resources and attachments</h2>
-          </div>
-          <AttachmentForm
-            initialData={{ ...course, attachments: [] }}
-            courseId={course.id}
-          />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

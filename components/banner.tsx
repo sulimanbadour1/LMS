@@ -1,4 +1,4 @@
-import { AlertTriangle, CheckCircle } from "lucide-react";
+import { AlertTriangle, CheckCircleIcon } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -6,16 +6,31 @@ const bannerVariants = cva(
   "border text-center text-sm flex items-center w-full",
   {
     variants: {
-      vaiant: {
-        success: "border-green-500 bg-green-50 text-green-800",
-        error: "border-red-500 bg-red-50 text-red-800",
-        warning: "border-yellow-500 bg-yellow-50 text-yellow-800",
-        info: "border-blue-500 bg-blue-50 text-blue-800",
+      variant: {
+        warning: "bg-yellow-200/80 border-yellow-30 text-primary",
+        success: "bg-emerald-700 border-emerald-800 text-secondary",
       },
+    },
+    defaultVariants: {
+      variant: "warning",
     },
   }
 );
 
-export const Banner = () => {
-  return <div>Banner</div>;
+interface BannerProps extends VariantProps<typeof bannerVariants> {
+  label: string;
+}
+
+const iconMap = {
+  warning: AlertTriangle,
+  success: CheckCircleIcon,
+};
+export const Banner = ({ label, variant }: BannerProps) => {
+  const Icon = iconMap[variant || "warning"];
+  return (
+    <div className={cn(bannerVariants({ variant }))}>
+      <Icon className="w-6 h-6 mr-2" />
+      {label}
+    </div>
+  );
 };
