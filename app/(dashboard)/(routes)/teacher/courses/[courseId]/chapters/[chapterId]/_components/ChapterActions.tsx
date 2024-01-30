@@ -1,6 +1,8 @@
 "use client";
 
+import { ModelConfirm } from "@/components/modals/confirmModel";
 import { Button } from "@/components/ui/button";
+import { Trash } from "lucide-react";
 
 interface ChapterActionsProps {
   disabled: boolean;
@@ -25,6 +27,11 @@ export const ChapterActions = ({
       >
         {isPublished ? "Unpublish" : "Publish"}
       </Button>
+      <ModelConfirm onConfirm={() => {}}>
+        <Button size="sm">
+          <Trash className="h-4 w-4" />
+        </Button>
+      </ModelConfirm>
     </div>
   );
 };
