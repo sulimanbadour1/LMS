@@ -22,6 +22,33 @@ export const ChapterActions = ({
 }: ChapterActionsProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  //for publish and unpublish chapter
+  const onPublish = async () => {
+    try {
+      setIsLoading(true);
+      if (isPublished) {
+        await fetch(
+          `/api/courses/${courseId}/chapters/${chapterId}/unpublish`,
+          {
+            method: "PATCH",
+          }
+        );
+        toast.success("Chapter unpublished.");
+        router.refresh();
+      } else {
+        await fetch(`/api/courses/${courseId}/chapters/${chapterId}/publish`, {
+          method: "PATCH",
+        });
+        toast.success("Chapter published.");
+        router.refresh();
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  // for delete chapter
   const onDelete = async () => {
     try {
       setIsLoading(true);
@@ -41,7 +68,7 @@ export const ChapterActions = ({
   return (
     <div className="flex items-center gap-x-2">
       <Button
-        onClick={() => {}}
+        onClick={onPublish}
         disabled={disabled || isLoading}
         variant="outline"
         size="default"
