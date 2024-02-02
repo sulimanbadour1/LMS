@@ -33,12 +33,18 @@ export async function PATCH(
                 courseId: params.courseId
             }
         })
-        if (!chapter) {
-            return new NextResponse("Not Found", { status: 404 })
+        const muxData = await db.muxData.findFirst({
+            where: {
+                chapterId: params.chapterId
+            }
+        })
+        if (!chapter || !chapter.description || !chapter.videoUrl || !chapter.title || !muxData) {
+            return new NextResponse("Missing Fields.", { status: 400 })
         }
         const updatedChapter = await db.chapter.update({
             where: {
-                id: params.chapterId
+                id: params.chapterId,
+                courseId: params.courseId
             },
             data: {
                 isPublished: true
