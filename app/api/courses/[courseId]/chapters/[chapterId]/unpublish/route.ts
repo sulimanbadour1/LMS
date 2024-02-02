@@ -47,7 +47,7 @@ export async function PATCH(
         return NextResponse.json(updatedChapter)
 
     } catch (error) {
-        console.log("[Chapters] [PATCH] error", error)
+        console.log("[Chapters] [PATCH] [UnPublish] error", error)
     }
 
 }
