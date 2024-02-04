@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 interface CourseActionsProps {
   disabled: boolean;
   courseId: string;
-
   isPublished: boolean;
 }
 
@@ -31,14 +30,13 @@ export const CourseActions = ({
           method: "PATCH",
         });
         toast.success("Course unpublished.");
-        router.refresh();
       } else {
         await fetch(`/api/courses/${courseId}/publish`, {
           method: "PATCH",
         });
         toast.success("Course published.");
-        router.refresh();
       }
+      router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
     } finally {

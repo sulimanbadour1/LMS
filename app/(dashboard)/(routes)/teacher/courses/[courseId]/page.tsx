@@ -60,6 +60,13 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     course.price,
     course.categoryId,
     course.chapters.length > 0,
+    course.chapters.every(
+      (chapter) =>
+        chapter.title &&
+        chapter.videoUrl &&
+        chapter.description &&
+        chapter.isPublished
+    ),
   ];
   const totalFields = requiredFields.length;
 
