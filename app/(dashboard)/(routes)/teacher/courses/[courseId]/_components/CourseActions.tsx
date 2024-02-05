@@ -2,6 +2,7 @@
 
 import { ModelConfirm } from "@/components/modals/confirmModel";
 import { Button } from "@/components/ui/button";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,6 +22,8 @@ export const CourseActions = ({
 }: CourseActionsProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  //for confetti
+  const confetti = useConfettiStore();
   //for publish and unpublish chapter
   const onPublish = async () => {
     try {
@@ -35,6 +38,7 @@ export const CourseActions = ({
           method: "PATCH",
         });
         toast.success("Course published.");
+        confetti.onOpen();
       }
       router.refresh();
     } catch (error) {
