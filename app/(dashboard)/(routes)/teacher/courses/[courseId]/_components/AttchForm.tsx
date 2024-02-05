@@ -38,10 +38,10 @@ const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
           "Content-Type": "application/json",
         },
       });
-      toast.success("Image updated");
+      toast.success("Attachment updated");
+
       toggleEdit();
       router.refresh();
-      const data = await res.json();
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -67,6 +67,7 @@ const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
       setDeletingId(null);
     }
   };
+
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="flex font-medium items-center justify-between">
@@ -83,7 +84,7 @@ const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
       </div>
       {!isEditing && (
         <>
-          {initialData.attachments.length == 0 && (
+          {initialData.attachments.length === 0 && (
             <p className="text-sm mt-2 text-slate-500 italic ">
               No attachments yet
             </p>
