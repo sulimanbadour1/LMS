@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
-import { json } from "body-parser";
+
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {

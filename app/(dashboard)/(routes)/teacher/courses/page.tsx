@@ -4,6 +4,8 @@ import { columns } from "./_components/columns";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const CoursesPage = async () => {
   const { userId } = auth();
@@ -21,9 +23,16 @@ const CoursesPage = async () => {
     },
   });
   return (
-    <div className="p-6">
-      <DataTable columns={columns} data={courses} />
-    </div>
+    <>
+      {/* <div className="p-6">
+        <Button>
+          <Link href={`courses/create`}>Create Course</Link>
+        </Button>
+      </div> */}
+      <div className="p-6">
+        <DataTable columns={columns} data={courses} />
+      </div>
+    </>
   );
 };
 
