@@ -1,12 +1,16 @@
 "use client";
 
+import { Search } from "lucide-react";
+import { Input } from "./ui/input";
+
 export const SearchInput = () => {
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search"
-        className="w-full border border-slate-200 rounded-lg p-2"
+    <div className="relative">
+      <Search className=" h-4 w-4 absolute top-3 left-3 text-slate-600" />
+      <Input
+        className="w-full md:w-[300px] pl-9 rounded-full
+       bg-slate-100 focus-visible:ring-slate-300"
+        placeholder="Search for a course..."
       />
     </div>
   );
