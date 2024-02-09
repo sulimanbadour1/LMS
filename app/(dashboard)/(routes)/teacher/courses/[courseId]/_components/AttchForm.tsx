@@ -48,6 +48,7 @@ const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
     }
   };
 
+  console.log(initialData.attachments);
   const onDelete = async (id: string) => {
     try {
       setDeletingId(id);
