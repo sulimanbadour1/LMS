@@ -17,10 +17,22 @@ const CourseSidebar = async ({ course, progressCount }: CourseSidebarProps) => {
   }
 
   const purchase = await db.purchase.findUnique({
-    where: {},
+    where: {
+      userId_courseId: {
+        userId,
+        courseId: course.id,
+      },
+    },
   });
 
-  return <div>CourseSidebar</div>;
+  return (
+    <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
+      <div className="p-8 flex flex-col border-b">
+        <h1 className="font-semibold">{course.title}</h1>
+        {/* Check purchase and add progress*/}
+      </div>
+    </div>
+  );
 };
 
 export default CourseSidebar;
