@@ -1,6 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
-
-export const CourseEnrollButton = () => {
-  return <Button>Enroll Now</Button>;
+import { formatPrice } from "@/lib/format";
+interface CourseEnrollButtonProps {
+  price: number;
+  courseId: string;
+}
+export const CourseEnrollButton = ({
+  price,
+  courseId,
+}: CourseEnrollButtonProps) => {
+  return (
+    <Button className="w-full md:w-auto">
+      Enroll for {formatPrice(price)}
+    </Button>
+  );
 };
