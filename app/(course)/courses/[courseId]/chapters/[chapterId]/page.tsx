@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs";
 import { Video } from "lucide-react";
 import { redirect } from "next/navigation";
 import { VideoPlayer } from "./_components/VideoPlayer";
+import { CourseEnrollButton } from "./_components/CourseEnroll";
 
 const ChapterIdPage = async ({
   params,
@@ -61,6 +62,20 @@ const ChapterIdPage = async ({
             isLocked={isLocked}
             completeOnEnd={completeOnEnd}
           />
+        </div>
+        <div>
+          <div className="p-4 flex flex-col md:flex-row items-center justify-between">
+            <h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
+            {purchase ? (
+              //Add progress bar here
+              <div>Add Course Progress Bar</div>
+            ) : (
+              <CourseEnrollButton
+                courseId={params.courseId}
+                price={course.price!}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
